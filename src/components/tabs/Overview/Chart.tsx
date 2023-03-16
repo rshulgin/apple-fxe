@@ -38,6 +38,13 @@ export const Chart = memo(({data}: ChartProps) => {
                         <stop offset="5%" stopColor="rgb(100, 171, 248)" stopOpacity={0.3}/>
                         <stop offset="95%" stopColor="rgb(100, 171, 248)" stopOpacity={0}/>
                     </linearGradient>
+                    <filter x="-0.1" y="0" width="2" height="1" id="solid">
+                        <feFlood floodColor="#388e3c" result="bg" />
+                        <feMerge>
+                            <feMergeNode in="bg"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
                 </defs>
                 <XAxis dataKey="date" tickFormatter={tickFormatter}/>
                 <YAxis orientation="right" domain={['auto', 'auto']} tickCount={8}/>
@@ -45,14 +52,15 @@ export const Chart = memo(({data}: ChartProps) => {
                 <Tooltip />
                 <ReferenceLine
                     y={data.at(-1)?.value}
-                    stroke="green"
+                    stroke="#388e3c"
                     strokeDasharray="3 3"
                 >
                     <Label
                         value={data.at(-1)?.value}
                         offset={5}
                         position="right"
-                        fill="green"
+                        fill="white"
+                        filter="url(#solid)"
                     />
                 </ReferenceLine>
             </ComposedChart>

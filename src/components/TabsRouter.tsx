@@ -1,8 +1,19 @@
 import {BrowserRouter, Link, Route, Routes, useLocation} from "react-router-dom";
-import {Box, Tab, Tabs} from "@mui/material";
+import {Box, styled, Tab, Tabs} from "@mui/material";
 import React from "react";
 import {Overview} from "./tabs/Overview/Overview";
 import {History} from "./tabs/History";
+
+const StyledTab = styled(Tab<typeof Link>)(
+    () => ({
+        '&, &.Mui-selected': {
+            fontSize: '20px',
+            fontWeight: 'bold',
+            textTransform: 'capitalize',
+            padding: '20px 40px',
+        },
+    }),
+);
 
 function TabList() {
     const location = useLocation();
@@ -11,8 +22,8 @@ function TabList() {
     return (
         <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
             <Tabs value={currentTab}>
-                <Tab label="Overview" value="/" to="/" component={Link}/>
-                <Tab label="History" value="/history" to="/history" component={Link}/>
+                <StyledTab label="Overview" value="/" to="/" component={Link}/>
+                <StyledTab label="History" value="/history" to="/history" component={Link}/>
             </Tabs>
         </Box>
     );

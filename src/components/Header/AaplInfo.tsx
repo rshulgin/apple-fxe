@@ -1,33 +1,22 @@
 import React, {memo} from "react";
 import {Box, Typography} from "@mui/material";
 
-const preformatDate = (dateString: string) => new Intl
-    .DateTimeFormat('en-GB', {dateStyle: 'medium', timeStyle: 'long', timeZone: 'America/New_York'})
-    .format(new Date(dateString))
 type AaplInfoProps = {
     price?: number;
     change?: number;
     percentChange?: number;
-    lastUpdate?: string;
 }
-export const AaplInfo = memo(({price, change, lastUpdate, percentChange}: AaplInfoProps) => (
-    <Box ml={3}>
-        <Box display={'flex'} alignItems={'end'} justifyContent={'space-between'}>
-            <Typography fontSize={32} fontWeight={'bold'} lineHeight={1}>
+const changePreformat = new Intl.NumberFormat('en-US', {signDisplay: 'always'});
+export const AaplInfo = memo(({price, change, percentChange}: AaplInfoProps) => (
+        <Box>
+            <Typography variant={"h3"} fontSize='4rem' lineHeight={1}>
                 {price}
             </Typography>
-            <Typography
-                fontSize={18}
-                color={change && change > 0 ? 'rgb(80, 126, 17)' : 'rgb(217, 30, 24)'}
+            <Box display={'flex'} alignItems={'end'} justifyContent={'space-between'}
+                color={change && change > 0 ? '#388e3c' : 'rgb(217, 30, 24)'}
             >
-                {change} ({percentChange}%)
-            </Typography>
+                <Typography variant={"h5"}>{change ? changePreformat.format(change) : '--.--'}</Typography>
+                <Typography variant={"h5"}>({percentChange ? changePreformat.format(percentChange) : '--.--'}%)</Typography>
+            </Box>
         </Box>
-
-        <Typography fontSize={12} color={'rgb(153, 153, 153)'}>
-            <span>in: UDS</span>
-            <span>&nbsp;•&nbsp;</span>
-            <span>As of: {lastUpdate ? preformatDate(lastUpdate) : '-'}</span>
-        </Typography>
-    </Box>
 ))

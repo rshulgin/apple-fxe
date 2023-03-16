@@ -5,8 +5,13 @@ import {Box} from "@mui/material";
 import {TimePeriodTabs} from "./TimePeriodTabs";
 import { DataGrid, GridColDef, GridValueFormatterParams } from '@mui/x-data-grid';
 
-const valueFormatter = (params: GridValueFormatterParams) => new Intl.NumberFormat('en-US', {minimumFractionDigits: 2}).format(params.value);
-const valueDateFormatter = (params: GridValueFormatterParams) => new Intl.DateTimeFormat('en-US', {dateStyle: 'medium', timeStyle: 'short'}).format(new Date(params.value));
+const rowNumberFormat = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2});
+const valueFormatter = (params: GridValueFormatterParams) => rowNumberFormat.format(params.value);
+
+const rowDateTimeFormat = new Intl.DateTimeFormat('en-US', {dateStyle: 'medium', timeStyle: 'short'});
+const valueDateFormatter = (params: GridValueFormatterParams) => rowDateTimeFormat.format(new Date(params.value));
+
+const rowPercentFormat = new Intl.NumberFormat('en-US', {signDisplay: 'always', maximumFractionDigits: 2});
 
 const columns: GridColDef[] = [
     {
@@ -60,8 +65,8 @@ const columns: GridColDef[] = [
         headerAlign: 'left',
         renderCell: (params) => {
             const percent = 100 - (100 / params.row.Open * params.row.Close);
-            const value = new Intl.NumberFormat('en-US', {signDisplay: 'always', maximumFractionDigits: 2}).format(percent)
-            return (<Box color={!percent ? undefined : percent > 0 ? 'green' : 'red'}>{value}%</Box>)
+            const value = rowPercentFormat.format(percent)
+            return (<Box color={!percent ? undefined : percent > 0 ? '#388e3c' : 'rgb(217, 30, 24)'}>{value}%</Box>)
         },
     },
 ];

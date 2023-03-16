@@ -3,8 +3,8 @@ import {useMemo} from "react";
 const today = new Date();
 const yesterday = new Date();
 yesterday.setHours(yesterday.getHours() - 24);
-const lastYear = new Date();
-lastYear.setMonth(lastYear.getMonth() - 12);
+const lastMonth = new Date();
+lastMonth.setMonth(lastMonth.getMonth() - 1);
 
 const formatDate = (date: Date) => new Intl.DateTimeFormat('en-US').format(date);
 const paramsMap = [
@@ -29,7 +29,7 @@ const paramsMap = [
     {
         period: `${24 * 7}`,
         Precision: "Hours",
-        StartTime: formatDate(lastYear),
+        StartTime: formatDate(lastMonth),
         EndTime: `${formatDate(today)}%2023:59`,
     }
 ];
