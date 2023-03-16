@@ -42,5 +42,5 @@ type CandlesProps = Array<{
 }>
 
 export const useCandles = (params: Partial<UrlParams>) => {
-    return useQuery<CandlesProps>(['CANDLES', params], () => getData(params))
+    return useQuery<CandlesProps>(['CANDLES', params], () => getData(params), {staleTime: 5, keepPreviousData: true})
 }
