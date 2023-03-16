@@ -2,6 +2,13 @@ import {QueryClient, useQuery} from 'react-query';
 
 export const queryClient = new QueryClient()
 
+type UrlParams = {
+    period: string,
+    Precision: string,
+    StartTime: string,
+    EndTime: string,
+}
+
 const urlParams = {
     Identifier: "AAPL.XNAS",
     IdentifierType: "Symbol",
@@ -19,10 +26,21 @@ const withQueryParams = (url: string,params: Record<string, string>) => {
     const queryString = Object.entries(params).map(([key,value]) => `${key}=${value}`).join('&');
     return `${url}?${queryString}`;
 };
-const getData = () => fetch(withQueryParams(apiURL, urlParams)).then(res =>
+const getData = (params: Partial<UrlParams>) => fetch(withQueryParams(apiURL, {...urlParams, ...params})).then(res =>
     res.json()
 );
 
-export const useCandles = () => {
-    return useQuery('CANDLES', getData)
+type CandlesProps = Array<{
+    "StartDate": string;
+    "StartTime": string;
+    "Open": number;
+    "High": number;
+    "Low": number;
+    "Close": number;
+    "Volume": number;
+    "Date": string;
+}>
+
+export const useCandles = (params: Partial<UrlParams>) => {
+    return useQuery<CandlesProps>(['CANDLES', params], () => getData(params))
 }

@@ -5,17 +5,18 @@ import {Header} from "./components/Header/Header";
 import {socket, SocketProvider} from "./api/subscriber";
 import {queryClient} from "./api/api.hooks";
 import {TabsRouter} from "./components/TabsRouter";
+import {Container} from "@mui/material";
 
 function App() {
   return (
-    <div>
+    <Container maxWidth="lg">
         <SocketProvider client={socket}>
-            <Header />
+          <Header />
         </SocketProvider>
         <QueryClientProvider client={queryClient}>
-            <TabsRouter />
+          <TabsRouter />
         </QueryClientProvider>
-    </div>
+    </Container>
   );
 }
 
