@@ -1,4 +1,4 @@
-import {PropsWithChildren, useContext, createContext, useEffect, useState, useCallback, useMemo} from "react";
+import {PropsWithChildren, useContext, createContext, useEffect, useState, useCallback, useMemo, useRef} from "react";
 const url = process.env.REACT_APP_SUBSCRIBE_URL ?? 'wss://wstest.fxempire.com?token=btctothemoon';
 
 export const socket = new WebSocket(url);
@@ -9,7 +9,10 @@ export const SocketProvider = ({children, client}: PropsWithChildren<{ client: W
 )
 
 type SubscriberInfo<T> = {data: Record<string, T | null>, pending: boolean};
-export function useSubscriber<T>({instruments}: {instruments: string[]}): SubscriberInfo<T> {
+export function useSubscriber<T>({instruments: newList}: {instruments: string[]}): SubscriberInfo<T> {
+    const prevInstruments = useRef<string[]>([]);
+    const instruments = useMemo(() => Array.from(new Set([...prevInstruments.current, ...newList])), [newList]);
+    prevInstruments.current = instruments;
     const [connected, setConnected] = useState(false);
     const [message, setMessage] = useState<MessageEvent<string>>();
     const openHandler = useCallback(() => setConnected(true), []);

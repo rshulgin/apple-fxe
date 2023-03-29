@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Demo
+
+Open [https://fxe-demo.pages.dev](https://fxe-demo.pages.dev) to see the Demo.
+
 ## Available Scripts
 
 In the project directory, you can run:
